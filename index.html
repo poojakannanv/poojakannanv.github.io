@@ -8,13 +8,13 @@
 <meta name="author" content="Pooja Kannan" />
 <meta name="keywords" content="Pooja Kannan, Full-Stack Developer, React Developer UK, Node.js, AWS, TypeScript, MongoDB, MERN, Software Engineer Basildon, Waymade, Blackmont Consulting" />
 <meta name="robots" content="index, follow" />
-<meta name="theme-color" content="#0b0d10" />
+<meta name="theme-color" content="#0f172a" />
 
 <link rel="canonical" href="https://poojakannanv.github.io/" />
 
-<!-- Inline SVG favicon (PK monogram on a mint background) -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230b0d10'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,Menlo,monospace' font-size='28' font-weight='700' fill='%237cf0c7'>PK</text></svg>" />
-<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230b0d10'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,Menlo,monospace' font-size='28' font-weight='700' fill='%237cf0c7'>PK</text></svg>" />
+<!-- Inline SVG favicon (PK monogram in Plum on a Slate background) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230f172a'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,Menlo,monospace' font-size='28' font-weight='700' fill='%23c4a8db'>PK</text></svg>" />
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230f172a'/><text x='50%25' y='52%25' text-anchor='middle' dominant-baseline='middle' font-family='ui-monospace,Menlo,monospace' font-size='28' font-weight='700' fill='%23c4a8db'>PK</text></svg>" />
 
 <!-- Open Graph (LinkedIn / Facebook / WhatsApp / Slack link previews) -->
 <meta property="og:type" content="profile" />
@@ -80,6 +80,7 @@
     --ink-3:     #7d8593;
     --ink-4:     #525a67;
     --accent:    #7cf0c7;     /* mint terminal green */
+    --accent-fg: #07110c;     /* readable text colour on top of --accent (auto-flipped for light themes) */
     --accent-2:  #ffb86b;     /* warm amber */
     --accent-3:  #8ab4ff;     /* soft blue */
     --danger:    #ff7a91;
@@ -104,7 +105,7 @@
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
-  ::selection { background: var(--accent); color: #08110d; }
+  ::selection { background: var(--accent); color: var(--accent-fg); }
 
   a { color: inherit; text-decoration: none; }
   p { margin: 0 0 1em; color: var(--ink-2); }
@@ -235,9 +236,9 @@
   }
   .btn:hover { border-color: var(--ink-3); transform: translateY(-1px); }
   .btn.primary {
-    background: var(--accent); color: #07110c; border-color: var(--accent);
+    background: var(--accent); color: var(--accent-fg); border-color: var(--accent);
   }
-  .btn.primary:hover { background: color-mix(in oklab, var(--accent) 88%, white); border-color: color-mix(in oklab, var(--accent) 88%, white); }
+  .btn.primary:hover { background: color-mix(in oklab, var(--accent) 88%, white); border-color: color-mix(in oklab, var(--accent) 88%, white); color: var(--accent-fg); }
   .btn .arrow { transition: transform .2s var(--ease); }
   .btn:hover .arrow { transform: translateX(2px); }
 
@@ -438,8 +439,8 @@
     transition: all .2s var(--ease);
   }
   .contact-links a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
-  .contact-links a.primary { background: var(--accent); color: #07110c; border-color: var(--accent); }
-  .contact-links a.primary:hover { color: #07110c; }
+  .contact-links a.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .contact-links a.primary:hover { color: var(--accent-fg); }
 
   footer.foot {
     border-top: 1px solid var(--line);
@@ -454,8 +455,103 @@
   /* small icons (inline svg currentColor) */
   .ic { width: 14px; height: 14px; flex: none; }
 
+  /* ---------- Tweaks panel (public-facing theme switcher) ---------- */
+  .twk-trigger {
+    position: fixed; right: 20px; bottom: 20px; z-index: 2147483645;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--surface); color: var(--accent);
+    border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--line));
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    transition: transform .2s var(--ease), box-shadow .2s var(--ease), background .2s var(--ease);
+    box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .twk-trigger:hover { transform: scale(1.06); background: var(--surface-2); }
+  .twk-trigger.is-on { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .twk-trigger svg { width: 20px; height: 20px; }
+
+  .twk-panel {
+    position: fixed; right: 20px; bottom: 76px; z-index: 2147483646;
+    width: 300px; max-height: calc(100vh - 110px);
+    display: none; flex-direction: column;
+    background: color-mix(in oklab, var(--surface) 92%, transparent);
+    color: var(--ink);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--line-2); border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    font: 12px/1.4 var(--mono); overflow: hidden;
+    animation: twk-in .2s var(--ease);
+  }
+  @keyframes twk-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .twk-panel.is-on { display: flex; }
+  .twk-hd {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 10px 12px 14px; user-select: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .twk-hd b { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--ink); }
+  .twk-x {
+    appearance: none; border: 0; background: transparent; color: var(--ink-3);
+    width: 22px; height: 22px; border-radius: 4px; cursor: pointer; font-size: 16px; line-height: 1;
+  }
+  .twk-x:hover { background: var(--surface-2); color: var(--ink); }
+  .twk-body { padding: 14px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
+  .twk-sect {
+    font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 6px;
+  }
+  .twk-row { display: flex; flex-direction: column; gap: 8px; }
+  .twk-lbl { font-size: 11px; color: var(--ink-2); font-weight: 500; }
+  .twk-swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .twk-sw {
+    aspect-ratio: 1; border-radius: 6px; border: 1px solid var(--line-2);
+    cursor: pointer; position: relative; transition: transform .15s, border-color .15s;
+  }
+  .twk-sw:hover { transform: scale(1.08); }
+  .twk-sw.active { border-color: var(--ink); box-shadow: 0 0 0 2px color-mix(in oklab, var(--ink) 20%, transparent); }
+  .twk-sw.active::after {
+    content: '✓'; position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,.6);
+  }
+  .twk-themes { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .twk-theme {
+    padding: 10px 8px; border-radius: 6px; border: 1px solid var(--line-2);
+    background: var(--bg-2); cursor: pointer; text-align: left;
+    font-family: inherit; color: var(--ink); font-size: 11px; transition: all .15s;
+  }
+  .twk-theme:hover { border-color: var(--ink-3); }
+  .twk-theme.active { border-color: var(--accent); background: color-mix(in oklab, var(--accent) 10%, transparent); }
+  .twk-theme .tn { display: block; font-weight: 600; margin-bottom: 4px; }
+  .twk-theme .tp { display: flex; gap: 3px; }
+  .twk-theme .tp i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .twk-toggle { display: flex; justify-content: space-between; align-items: center; }
+  .twk-tg {
+    position: relative; width: 34px; height: 18px; border-radius: 999px;
+    background: var(--line-2); cursor: pointer; transition: background .2s;
+  }
+  .twk-tg::after {
+    content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+    border-radius: 50%; background: #fff; transition: transform .2s;
+  }
+  .twk-tg.on { background: var(--accent); }
+  .twk-tg.on::after { transform: translateX(16px); }
+  .twk-foot {
+    padding: 10px 14px; border-top: 1px solid var(--line);
+    font-size: 10px; color: var(--ink-4); text-align: center;
+  }
+  .twk-reset {
+    appearance: none; border: 0; background: transparent;
+    color: var(--accent); cursor: pointer; font-family: inherit; font-size: 10px;
+    text-decoration: underline; padding: 0;
+  }
+  .twk-reset:hover { color: var(--ink); }
+  @media (max-width: 480px) { .twk-panel { width: calc(100vw - 32px); right: 16px; } .twk-trigger { right: 16px; bottom: 16px; } }
+
   /* Print stylesheet — clean, paper-friendly export when someone hits Print */
   @media print {
+    .twk-panel, .twk-trigger { display: none !important; }
     header.nav, .hero::before, .hero::after { display: none !important; }
     html, body { background: #fff !important; color: #000 !important; }
     section { padding: 24px 0 !important; border-top: 1px solid #ccc !important; }
@@ -1079,10 +1175,257 @@
   </div>
 </section>
 
+<!-- ============ TWEAKS PANEL (theme + accent + font switcher) ============ -->
+<button class="twk-trigger" id="twk-trigger" aria-label="Open theme tweaks panel" title="Customise theme">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.36-.6-.36-.99 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.5-9-10-9z"/>
+  </svg>
+</button>
+
+<aside class="twk-panel" id="twk" role="dialog" aria-label="Theme customisation panel">
+  <div class="twk-hd">
+    <b>Customise this site</b>
+    <button class="twk-x" id="twk-x" aria-label="Close panel">×</button>
+  </div>
+  <div class="twk-body">
+    <div class="twk-row">
+      <div class="twk-sect">Theme</div>
+      <div class="twk-themes" id="twk-themes"></div>
+    </div>
+    <div class="twk-row">
+      <div class="twk-sect">Accent</div>
+      <div class="twk-swatches" id="twk-accents"></div>
+    </div>
+    <div class="twk-row">
+      <div class="twk-sect">Headline font</div>
+      <div class="twk-themes" id="twk-fonts"></div>
+    </div>
+    <div class="twk-row">
+      <div class="twk-toggle">
+        <span class="twk-lbl">Mono nav labels</span>
+        <div class="twk-tg on" id="twk-mono" role="switch" tabindex="0"></div>
+      </div>
+    </div>
+  </div>
+  <div class="twk-foot">
+    Saved to your browser · <button class="twk-reset" id="twk-reset" type="button">Reset to default</button>
+  </div>
+</aside>
+
 <footer class="foot">
   <div>// Designed &amp; built by Pooja Kannan · 2026 · <a href="https://github.com/poojakannanv/poojakannanv.github.io" target="_blank" rel="noopener">Source on GitHub</a></div>
   <div>Basildon, UK · Open to opportunities</div>
 </footer>
+
+<script>
+  /* ============ TWEAKS: theme + accent + font switcher ============
+     - 7 themes (5 dark, 2 light)
+     - 10 accent colours
+     - 3 headline fonts
+     - Mono nav-label toggle
+     - Persisted to localStorage; survives refresh + return visits
+  */
+  const TWEAK_KEY = 'pk_tweaks_v4';
+  const TWEAK_DEFAULTS = {
+    theme: 'slate',          // refined dark blue-gray
+    accent: 'Plum',          // dusty jewel-toned purple (resolves to a shade based on theme)
+    headlineFont: 'fraunces',
+    monoNav: true
+  };
+  const LIGHT_THEMES = new Set(['light', 'paper']);
+
+  const THEMES = {
+    midnight: { name: 'Midnight', bg:'#0b0d10', bg2:'#0f1216', surface:'#14181d', surface2:'#1a1f25', line:'#232932', line2:'#2c333d', ink:'#e6e9ee', ink2:'#b6bcc6', ink3:'#7d8593', ink4:'#525a67' },
+    slate:    { name: 'Slate',    bg:'#0f172a', bg2:'#131d33', surface:'#1e293b', surface2:'#273449', line:'#334155', line2:'#3e4d66', ink:'#f1f5f9', ink2:'#cbd5e1', ink3:'#94a3b8', ink4:'#64748b' },
+    carbon:   { name: 'Carbon',   bg:'#000000', bg2:'#0a0a0a', surface:'#111111', surface2:'#181818', line:'#222222', line2:'#2c2c2c', ink:'#f5f5f5', ink2:'#bdbdbd', ink3:'#7a7a7a', ink4:'#4d4d4d' },
+    bourbon:  { name: 'Bourbon',  bg:'#1a120b', bg2:'#1f150c', surface:'#251a10', surface2:'#2e2014', line:'#3a2a1c', line2:'#4a3624', ink:'#f5ecd9', ink2:'#d4c5a6', ink3:'#9c8f74', ink4:'#6b5e48' },
+    plum:     { name: 'Plum',     bg:'#0d0a14', bg2:'#15101e', surface:'#1c1729', surface2:'#251f36', line:'#312a44', line2:'#3d3454', ink:'#ece6f5', ink2:'#bcb1cf', ink3:'#857899', ink4:'#5b5070' },
+    light:    { name: 'Light',    bg:'#ffffff', bg2:'#f8fafc', surface:'#f1f5f9', surface2:'#e2e8f0', line:'#e2e8f0', line2:'#cbd5e1', ink:'#0f172a', ink2:'#334155', ink3:'#64748b', ink4:'#94a3b8' },
+    paper:    { name: 'Paper',    bg:'#faf8f3', bg2:'#f3efe6', surface:'#ffffff', surface2:'#f7f4ec', line:'#e6e1d4', line2:'#d4cdba', ink:'#1a1816', ink2:'#3d3a35', ink3:'#6b6660', ink4:'#9a948a' }
+  };
+
+  // Curated jewel-tone palette. Each accent has TWO shades:
+  //   onDark  -> dusty/refined pastel that reads on dark backgrounds without feeling neon
+  //   onLight -> deep, slightly desaturated mid-tone with enough contrast on white/cream
+  // Order chosen so the swatch row reads cool -> warm -> neutral.
+  const ACCENTS = [
+    { name:'Mint',          onDark:'#7cf0c7', onLight:'#059669' },  // signature fresh green (default)
+    { name:'Sage',          onDark:'#a8c7b1', onLight:'#4a7558' },  // muted, organic green
+    { name:'Slate Blue',    onDark:'#9bb3d4', onLight:'#334e75' },  // refined dusty navy
+    { name:'Midnight Teal', onDark:'#8ec0c0', onLight:'#2d6970' },  // deep, considered teal
+    { name:'Plum',          onDark:'#c4a8db', onLight:'#6e3f87' },  // jewel-toned purple
+    { name:'Oxblood',       onDark:'#e09da7', onLight:'#8b3845' },  // deep wine red
+    { name:'Terracotta',    onDark:'#e0a995', onLight:'#ad5230' },  // warm earth-orange
+    { name:'Bronze',        onDark:'#d6ad88', onLight:'#97632e' },  // earthy metallic
+    { name:'Champagne',     onDark:'#e0c599', onLight:'#b08938' },  // luxe warm gold
+    { name:'Steel',         onDark:'#b8c2cf', onLight:'#475569' }   // premium neutral
+  ];
+
+  // Helper: get the right shade of an accent for the current theme
+  function accentShade(accentName, themeKey) {
+    const a = ACCENTS.find(x => x.name === accentName) || ACCENTS[0];
+    return LIGHT_THEMES.has(themeKey) ? a.onLight : a.onDark;
+  }
+
+  const FONTS = {
+    fraunces: { name: 'Fraunces', family: "'Fraunces', Georgia, serif" },
+    inter:    { name: 'Inter',    family: "'Inter', system-ui, sans-serif" },
+    mono:     { name: 'Mono',     family: "'JetBrains Mono', ui-monospace, monospace" }
+  };
+
+  // Load saved prefs (or defaults)
+  let TW = { ...TWEAK_DEFAULTS };
+  try {
+    // Try v2 first, fall back to v1 (old hex-based) and migrate
+    let saved = JSON.parse(localStorage.getItem(TWEAK_KEY) || 'null');
+    if (!saved) {
+      const v1 = JSON.parse(localStorage.getItem('pk_tweaks_v1') || 'null');
+      if (v1) {
+        // migrate: turn hex accent into accent name
+        const matched = ACCENTS.find(a => a.onDark.toLowerCase() === (v1.accent || '').toLowerCase());
+        v1.accent = matched ? matched.name : 'Mint';
+        saved = v1;
+      }
+    }
+    if (saved && typeof saved === 'object') TW = { ...TWEAK_DEFAULTS, ...saved };
+    // safety: if accent value somehow still looks like a hex (#xxxxxx), normalise
+    if (typeof TW.accent === 'string' && TW.accent.startsWith('#')) {
+      const m = ACCENTS.find(a => a.onDark.toLowerCase() === TW.accent.toLowerCase());
+      TW.accent = m ? m.name : 'Mint';
+    }
+    // safety: if saved accent name no longer exists in palette, fall back to default
+    if (!ACCENTS.find(a => a.name === TW.accent)) TW.accent = TWEAK_DEFAULTS.accent;
+  } catch (e) { /* ignore */ }
+
+  function applyTweaks() {
+    const t = THEMES[TW.theme] || THEMES.midnight;
+    const isLight = LIGHT_THEMES.has(TW.theme);
+    const accColor = accentShade(TW.accent, TW.theme);
+    const accFg = isLight ? '#ffffff' : '#07110c';
+    const r = document.documentElement;
+    r.style.setProperty('--bg', t.bg);
+    r.style.setProperty('--bg-2', t.bg2);
+    r.style.setProperty('--surface', t.surface);
+    r.style.setProperty('--surface-2', t.surface2);
+    r.style.setProperty('--line', t.line);
+    r.style.setProperty('--line-2', t.line2);
+    r.style.setProperty('--ink', t.ink);
+    r.style.setProperty('--ink-2', t.ink2);
+    r.style.setProperty('--ink-3', t.ink3);
+    r.style.setProperty('--ink-4', t.ink4);
+    r.style.setProperty('--accent', accColor);
+    r.style.setProperty('--accent-fg', accFg);
+    r.style.setProperty('--serif', FONTS[TW.headlineFont].family);
+    // Update mobile theme-color
+    const tcm = document.querySelector('meta[name="theme-color"]');
+    if (tcm) tcm.setAttribute('content', t.bg);
+
+    document.querySelectorAll('.nav-links a .num, .sec-head .num').forEach(el => {
+      el.style.display = TW.monoNav ? '' : 'none';
+    });
+  }
+
+  function persist() {
+    try { localStorage.setItem(TWEAK_KEY, JSON.stringify(TW)); } catch (e) { /* ignore */ }
+  }
+
+  function buildPanel() {
+    const themesEl = document.getElementById('twk-themes');
+    themesEl.innerHTML = '';
+    Object.entries(THEMES).forEach(([k, t]) => {
+      const b = document.createElement('button');
+      b.className = 'twk-theme' + (TW.theme === k ? ' active' : '');
+      b.dataset.k = k;
+      b.type = 'button';
+      b.innerHTML = `<span class="tn">${t.name}</span><span class="tp">
+        <i style="background:${t.bg}"></i><i style="background:${t.surface}"></i>
+        <i style="background:${t.ink}"></i><i style="background:${t.ink3}"></i></span>`;
+      b.onclick = () => { TW.theme = k; applyTweaks(); refresh(); persist(); };
+      themesEl.appendChild(b);
+    });
+
+    const accEl = document.getElementById('twk-accents');
+    accEl.innerHTML = '';
+    ACCENTS.forEach(a => {
+      const s = document.createElement('div');
+      s.className = 'twk-sw' + (TW.accent === a.name ? ' active' : '');
+      s.dataset.name = a.name;
+      s.style.background = accentShade(a.name, TW.theme);
+      s.title = a.name;
+      s.setAttribute('role', 'button');
+      s.setAttribute('aria-label', `Accent: ${a.name}`);
+      s.onclick = () => { TW.accent = a.name; applyTweaks(); refresh(); persist(); };
+      accEl.appendChild(s);
+    });
+
+    const fontsEl = document.getElementById('twk-fonts');
+    fontsEl.innerHTML = '';
+    Object.entries(FONTS).forEach(([k, f]) => {
+      const b = document.createElement('button');
+      b.className = 'twk-theme' + (TW.headlineFont === k ? ' active' : '');
+      b.style.fontFamily = f.family;
+      b.style.fontSize = '14px';
+      b.style.padding = '12px 8px';
+      b.style.fontWeight = '300';
+      b.type = 'button';
+      b.textContent = f.name;
+      b.onclick = () => { TW.headlineFont = k; applyTweaks(); refresh(); persist(); };
+      fontsEl.appendChild(b);
+    });
+
+    const tg = document.getElementById('twk-mono');
+    tg.classList.toggle('on', TW.monoNav);
+    tg.onclick = () => { TW.monoNav = !TW.monoNav; applyTweaks(); refresh(); persist(); };
+    tg.onkeydown = (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tg.onclick(); } };
+  }
+
+  function refresh() {
+    document.querySelectorAll('#twk-themes .twk-theme').forEach(b => b.classList.toggle('active', b.dataset.k === TW.theme));
+    // Re-paint each swatch with the shade matching the current theme,
+    // and toggle the active state by accent NAME (not hex).
+    document.querySelectorAll('#twk-accents .twk-sw').forEach((s) => {
+      const name = s.dataset.name;
+      s.style.background = accentShade(name, TW.theme);
+      s.classList.toggle('active', name === TW.accent);
+    });
+    document.querySelectorAll('#twk-fonts .twk-theme').forEach((b, i) => b.classList.toggle('active', Object.keys(FONTS)[i] === TW.headlineFont));
+    document.getElementById('twk-mono').classList.toggle('on', TW.monoNav);
+  }
+
+  // Initial paint
+  applyTweaks();
+  buildPanel();
+
+  // Trigger / panel open + close
+  const trigger = document.getElementById('twk-trigger');
+  const panel = document.getElementById('twk');
+  function setOpen(open) {
+    panel.classList.toggle('is-on', open);
+    trigger.classList.toggle('is-on', open);
+    trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  trigger.addEventListener('click', () => setOpen(!panel.classList.contains('is-on')));
+  document.getElementById('twk-x').addEventListener('click', () => setOpen(false));
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!panel.classList.contains('is-on')) return;
+    if (panel.contains(e.target) || trigger.contains(e.target)) return;
+    setOpen(false);
+  });
+  // Close on Escape
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  // Reset to defaults
+  document.getElementById('twk-reset').addEventListener('click', () => {
+    TW = { ...TWEAK_DEFAULTS };
+    applyTweaks(); refresh(); persist();
+  });
+</script>
 
 <script>
   // Reveal on scroll
