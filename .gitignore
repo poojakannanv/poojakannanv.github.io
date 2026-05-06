@@ -1,0 +1,27 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output (none for now, but reserved if we ever add a build step)
+dist/
+build/
+node_modules/
+
+# Local env files
+.env
+.env.local
+
+# Backups
+*.bak
+*.tmp
