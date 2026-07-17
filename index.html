@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Pooja Kannan · Full-Stack Developer (React · Node · AWS)</title>
-<meta name="description" content="Full-Stack Developer based in Basildon, UK. 3+ years of MERN-stack production experience, MSc from the University of Liverpool, and hands-on AI tooling work in a UK pharmaceutical PLC." />
+<meta name="description" content="Full-Stack Developer based in Basildon, UK. 3+ years of MERN-stack production experience, MSc from the University of Liverpool, and a deployed AI-assisted regulatory workflow plus Power BI data products at a UK pharmaceutical PLC." />
 <meta name="author" content="Pooja Kannan" />
 <meta name="keywords" content="Pooja Kannan, Full-Stack Developer, React Developer UK, Node.js, AWS, TypeScript, MongoDB, MERN, Software Engineer Basildon, Waymade, Blackmont Consulting" />
 <meta name="robots" content="index, follow" />
@@ -19,7 +19,7 @@
 <!-- Open Graph (LinkedIn / Facebook / WhatsApp / Slack link previews) -->
 <meta property="og:type" content="profile" />
 <meta property="og:title" content="Pooja Kannan · Full-Stack Developer" />
-<meta property="og:description" content="Full-Stack Developer · MERN · AWS · MSc Liverpool · UK-based. 3+ years production engineering, currently bridging engineering and operations at Waymade PLC and Blackmont Consulting." />
+<meta property="og:description" content="Full-Stack Developer · MERN · AWS · MSc Liverpool · UK-based. 3+ years production engineering, a deployed Claude API regulatory workflow, and delivery leadership at Waymade PLC and Blackmont Consulting." />
 <meta property="og:url" content="https://poojakannanv.github.io/" />
 <meta property="og:image" content="https://poojakannanv.github.io/assets/og-image.svg" />
 <meta property="og:image:width" content="1200" />
@@ -116,13 +116,38 @@
   section + section { border-top: 1px solid var(--line); }
 
   /* ---------- Reveal animation ---------- */
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
-  .reveal.is-in { opacity: 1; transform: none; }
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(6px);
+    transition: opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);
+    will-change: opacity, transform, filter;
+  }
+  .reveal.is-in { opacity: 1; transform: none; filter: blur(0); }
   .reveal[data-d="1"] { transition-delay: .08s; }
   .reveal[data-d="2"] { transition-delay: .16s; }
   .reveal[data-d="3"] { transition-delay: .24s; }
   .reveal[data-d="4"] { transition-delay: .32s; }
   .reveal[data-d="5"] { transition-delay: .40s; }
+
+  /* Staggered chips inside a revealed group */
+  .reveal .chip { opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease), transform .5s var(--ease), color .15s var(--ease), border-color .15s var(--ease); }
+  .reveal.is-in .chip { opacity: 1; transform: none; }
+  .reveal.is-in .chip:nth-child(1)  { transition-delay: .10s; }
+  .reveal.is-in .chip:nth-child(2)  { transition-delay: .15s; }
+  .reveal.is-in .chip:nth-child(3)  { transition-delay: .20s; }
+  .reveal.is-in .chip:nth-child(4)  { transition-delay: .25s; }
+  .reveal.is-in .chip:nth-child(5)  { transition-delay: .30s; }
+  .reveal.is-in .chip:nth-child(6)  { transition-delay: .35s; }
+  .reveal.is-in .chip:nth-child(7)  { transition-delay: .40s; }
+  .reveal.is-in .chip:nth-child(8)  { transition-delay: .45s; }
+  .reveal.is-in .chip:nth-child(9)  { transition-delay: .50s; }
+  .reveal.is-in .chip:nth-child(10) { transition-delay: .55s; }
+  .reveal.is-in .chip:nth-child(11) { transition-delay: .60s; }
+
+  /* Timeline dot pop on reveal */
+  .tl-item.reveal::before { transform: scale(0); transition: transform .5s .3s var(--ease), border-color .25s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease); }
+  .tl-item.reveal.is-in::before { transform: scale(1); }
 
   /* ---------- Top nav ---------- */
   header.nav {
@@ -170,6 +195,16 @@
       radial-gradient(ellipse 50% 40% at 90% 20%, color-mix(in oklab, var(--accent-3) 12%, transparent), transparent 60%);
     filter: blur(40px); pointer-events: none;
     z-index: 0;
+    animation: aurora 16s var(--ease) infinite alternate;
+  }
+  @keyframes aurora {
+    0%   { transform: translate3d(0, 0, 0) scale(1); opacity: .9; }
+    50%  { transform: translate3d(3%, 2%, 0) scale(1.06); opacity: 1; }
+    100% { transform: translate3d(-3%, -1%, 0) scale(1.02); opacity: .85; }
+  }
+  #fx-canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none; opacity: .55;
   }
   .hero::after {
     content: ''; position: absolute; inset: 0;
@@ -209,7 +244,17 @@
     vertical-align: middle;
     margin-left: 8px;
     transform: translateY(-.18em);
+    min-width: 13ch;
+    text-align: left;
   }
+  .type-caret {
+    display: inline-block;
+    width: .55ch;
+    margin-left: 2px;
+    color: var(--accent);
+    animation: caret-blink 1s steps(1) infinite;
+  }
+  @keyframes caret-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0; } }
   .lede {
     font-size: clamp(17px, 1.45vw, 20px);
     color: var(--ink-2);
@@ -294,9 +339,24 @@
     background: var(--surface);
     border-radius: var(--radius);
     padding: 24px;
-    transition: border-color .2s var(--ease), transform .2s var(--ease);
+    transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .3s var(--ease);
+    position: relative;
+    overflow: hidden;
   }
-  .skill-group:hover { border-color: var(--line-2); }
+  .skill-group:hover { border-color: color-mix(in oklab, var(--accent) 35%, var(--line)); box-shadow: 0 12px 32px rgba(0,0,0,.22); }
+
+  /* Cursor-tracking tilt + spotlight (JS sets --rx/--ry/--mx/--my on .tilt) */
+  .tilt { transform-style: preserve-3d; }
+  .tilt.is-tilting {
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-2px);
+    transition: border-color .2s var(--ease), box-shadow .3s var(--ease);
+  }
+  .tilt::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--accent) 10%, transparent), transparent 65%);
+    opacity: 0; transition: opacity .3s var(--ease); pointer-events: none;
+  }
+  .tilt:hover::after { opacity: 1; }
   .skill-group h3 { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; margin: 0 0 16px; font-weight: 500; }
   .skill-group .level { font-family: var(--mono); font-size: 11px; color: var(--ink-4); margin-left: 6px; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -325,8 +385,22 @@
     gap: clamp(28px, 4vw, 56px);
     align-items: start;
     transition: background .25s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .project::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(480px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--accent) 7%, transparent), transparent 65%);
+    opacity: 0; transition: opacity .35s var(--ease); pointer-events: none;
   }
   .project:hover { background: var(--surface); }
+  .project:hover::before { opacity: 1; }
+  .project::after {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--accent); transform: scaleY(0); transform-origin: top;
+    transition: transform .4s var(--ease);
+  }
+  .project:hover::after { transform: scaleY(1); }
   .project .meta { font-family: var(--mono); font-size: 12px; color: var(--ink-4); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 16px; }
   .project .meta b { color: var(--accent); font-weight: 500; }
   .project h3 {
@@ -391,7 +465,11 @@
     background: var(--surface);
     border-radius: var(--radius);
     padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s var(--ease), box-shadow .3s var(--ease);
   }
+  .panel:hover { border-color: color-mix(in oklab, var(--accent) 30%, var(--line)); box-shadow: 0 12px 32px rgba(0,0,0,.2); }
   .panel h3 { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; margin: 0 0 20px; font-weight: 500; }
   .panel .item { padding: 14px 0; border-bottom: 1px dashed var(--line); }
   .panel .item:last-child { border-bottom: none; padding-bottom: 0; }
@@ -549,9 +627,20 @@
   .twk-reset:hover { color: var(--ink); }
   @media (max-width: 480px) { .twk-panel { width: calc(100vw - 32px); right: 16px; } .twk-trigger { right: 16px; bottom: 16px; } }
 
+  /* Reduced motion: kill all decorative animation, keep content visible */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal .chip { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+    .tl-item.reveal::before { transform: scale(1) !important; transition: none !important; }
+    .hero::before { animation: none !important; }
+    #fx-canvas { display: none !important; }
+    .type-caret { animation: none !important; }
+    .tilt.is-tilting { transform: none !important; }
+    html { scroll-behavior: auto; }
+  }
+
   /* Print stylesheet - clean, paper-friendly export when someone hits Print */
   @media print {
-    .twk-panel, .twk-trigger { display: none !important; }
+    .twk-panel, .twk-trigger, #fx-canvas { display: none !important; }
     header.nav, .hero::before, .hero::after { display: none !important; }
     html, body { background: #fff !important; color: #000 !important; }
     section { padding: 24px 0 !important; border-top: 1px solid #ccc !important; }
@@ -587,18 +676,20 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="top" data-screen-label="01 Hero">
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
   <div class="container">
     <div class="reveal">
       <span class="eyebrow">Full-Stack Developer · Basildon, UK</span>
     </div>
     <h1 class="display reveal" data-d="1">
-      Pooja <span class="accent">Kannan</span><span class="stack">/ MERN · AWS ·</span>
+      Pooja <span class="accent">Kannan</span><span class="stack">/ <span id="type-roles">MERN · AWS</span><span class="type-caret">▍</span></span>
     </h1>
     <p class="lede reveal" data-d="2">
       I build production React applications end-to-end, from MongoDB schemas
-      to deployed AWS infrastructure, and have spent the last year embedded
-      inside a UK pharmaceutical business, where engineering work meets
-      regulated-industry stakeholders.
+      to deployed AWS infrastructure. Over the last year at a UK
+      pharmaceutical business I have shipped a deployed AI-assisted
+      regulatory workflow on the Claude API and Power BI data products used
+      by senior leadership.
     </p>
 
     <div class="hero-actions reveal" data-d="3">
@@ -671,9 +762,9 @@
         <p>
           I'm a <strong>Full-Stack Developer</strong> based in Basildon, UK, with just
           over three years of hands-on software engineering experience,
-          primarily in the <strong>MERN stack</strong> and <strong>AWS</strong>, and
-          nearly a year inside the executive operations of a UK pharmaceutical
-          PLC.
+          primarily in the <strong>MERN stack</strong> and <strong>AWS</strong>,
+          together with a year of engineering, data and delivery work at a UK
+          pharmaceutical PLC and consulting leadership at Blackmont.
         </p>
         <p>
           My most formative work happened at <strong>Nuvepro Technologies</strong>
@@ -690,11 +781,15 @@
         <p>
           The slightly unusual part of my profile: at <strong>Waymade PLC</strong>
           I started as an Executive Assistant and grew the role into something
-          hybrid. I now build internal React/TypeScript tooling, run a
-          Monday-to-Power-BI migration over GraphQL, and prototype AI-assisted
-          workflow automation alongside my admin work. As of May 2026 I am also
-          a <strong>part-time Project Manager at Blackmont Consulting</strong>,
-          leading a team of seven Business Analysts.
+          hybrid. I now build and own <strong>Power BI data products</strong>
+          used by senior leadership, built internal React/TypeScript tooling,
+          and designed a <strong>deployed AI-assisted regulatory drafting
+          workflow</strong> on the Claude API with roughly 95% time saving on
+          target sections. At <strong>Blackmont Consulting</strong> I joined
+          as a part-time Project Manager, led an 8-week client engagement
+          with seven consultants across four time zones, and was promoted to
+          <strong>Head of Project Success</strong> in July 2026, reporting
+          directly to the CEO.
         </p>
         <p>
           That hybrid (<strong>production engineering, executive stakeholder
@@ -769,10 +864,12 @@
       </div>
 
       <div class="skill-group reveal" data-d="3">
-        <h3>AI &amp; tooling <span class="level">// hands-on user</span></h3>
+        <h3>AI &amp; data <span class="level">// deployed in production</span></h3>
         <div class="chips">
-          <span class="chip strong">Claude</span>
+          <span class="chip strong">Claude API · LLM integration</span>
+          <span class="chip strong">Power BI</span>
           <span class="chip strong">GitHub Copilot</span>
+          <span class="chip">Pandas</span>
           <span class="chip">VS Code</span>
           <span class="chip">IntelliJ</span>
           <span class="chip">Postman</span>
@@ -786,10 +883,11 @@
           <span class="chip strong">Agile / Scrum</span>
           <span class="chip strong">Sprint planning</span>
           <span class="chip strong">Code review</span>
+          <span class="chip strong">Stakeholder mgmt.</span>
+          <span class="chip">Monday.com</span>
           <span class="chip">Microsoft Project</span>
           <span class="chip">Microsoft 365 · SharePoint</span>
-          <span class="chip">Power BI</span>
-          <span class="chip">Stakeholder mgmt.</span>
+          <span class="chip">Cross-time-zone leadership</span>
         </div>
       </div>
 
@@ -822,9 +920,9 @@
       </div>
     </div>
 
-    <div class="projects reveal">
+    <div class="projects">
 
-      <article class="project">
+      <article class="project reveal">
         <div>
           <div class="meta"><b>2021 to 2023</b> · Nuvepro Technologies</div>
           <span class="role-chip">End-to-end ownership · solo + 2 mentees</span>
@@ -852,7 +950,7 @@
         </div>
       </article>
 
-      <article class="project">
+      <article class="project reveal" data-d="1">
         <div>
           <div class="meta"><b>2024</b> · MSc Dissertation, University of Liverpool</div>
           <span class="role-chip">Solo · serverless architecture</span>
@@ -880,7 +978,7 @@
         </div>
       </article>
 
-      <article class="project">
+      <article class="project reveal" data-d="2">
         <div>
           <div class="meta"><b>2024</b> · MSc Project, University of Liverpool</div>
           <span class="role-chip">Research-grade · React + Python</span>
@@ -905,32 +1003,59 @@
         </div>
       </article>
 
-      <article class="project">
+      <article class="project reveal" data-d="2">
         <div>
           <div class="meta"><b>2025 to present</b> · Waymade PLC</div>
-          <span class="role-chip">Live · regulated-industry context</span>
-          <h3>Internal Medicine Tracker &amp; Power&nbsp;BI&nbsp;Migration</h3>
-          <div class="org">Internal tools · React · TypeScript · GraphQL · Python</div>
+          <span class="role-chip">Deployed · handed over to the regulatory team</span>
+          <h3>AI-Assisted Regulatory Drafting Workflow</h3>
+          <div class="org">Claude API · LLM workflow automation · pharma</div>
         </div>
         <div class="body">
           <p>
-            Built an internal React/TypeScript website to centralise and track
-            medicine details across the business, improving data accessibility
-            and cross-team collaboration in a regulated pharmaceutical context.
+            Designed and built an AI-assisted drafting workflow using the
+            <strong>Claude API</strong> to generate regulatory submission
+            sections, packaged as reusable skills and handed over to the
+            regulatory team to run independently.
           </p>
           <p>
-            In parallel, supporting the PMO team in migrating data from
-            Monday.com to <strong>Power BI</strong> over GraphQL, and writing
-            Python scripts that automatically download datasets from the UK
-            prescription sites and publish them to Power BI dashboards for
-            internal reporting. Actively prototyping AI-assisted workflow
-            automation with Claude and GitHub Copilot to cut time spent on
-            repetitive regulatory tasks.
+            Used across multiple products with approximately
+            <strong>95% time saving</strong> on target sections. Demonstrated
+            to executive directors and the VP of Regulatory Affairs, and
+            scoped access, usage and handover with IT.
           </p>
           <div class="stack">
-            <span class="chip">React</span><span class="chip">TypeScript</span>
-            <span class="chip">GraphQL</span><span class="chip">Power BI</span>
-            <span class="chip">Python</span><span class="chip">Claude · Copilot</span>
+            <span class="chip">Claude API</span><span class="chip">LLM integration</span>
+            <span class="chip">Workflow automation</span><span class="chip">Regulated industry</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project reveal" data-d="3">
+        <div>
+          <div class="meta"><b>2025 to present</b> · Waymade PLC</div>
+          <span class="role-chip">Live · used daily by leadership</span>
+          <h3>Power&nbsp;BI Data Products &amp; Internal Tooling</h3>
+          <div class="org">BI dashboards · React · TypeScript · GraphQL · Python</div>
+        </div>
+        <div class="body">
+          <p>
+            Built and own a suite of <strong>Power BI dashboards</strong> used
+            by senior leadership, consolidating industry sales data, MHRA data
+            and UK prescription datasets across England, Scotland and Northern
+            Ireland with Python pipelines. Migrated project tracking from
+            Monday.com to Power BI over GraphQL with a Python audit layer; the
+            live dashboard is used daily by 10 to 12 department heads.
+          </p>
+          <p>
+            Also built an internal React/TypeScript application to centralise
+            and track medicine data across the business, and a Project Charter
+            tool for the PMO delivered as an HTML application with a backing
+            database.
+          </p>
+          <div class="stack">
+            <span class="chip">Power BI</span><span class="chip">Python</span>
+            <span class="chip">GraphQL</span><span class="chip">React</span>
+            <span class="chip">TypeScript</span>
           </div>
         </div>
       </article>
@@ -949,26 +1074,45 @@
       </div>
       <div class="right">
         Bengaluru &rarr; Liverpool &rarr; Basildon. Engineer, mentor,
-        EA-with-engineering, project manager.
+        EA-with-engineering, project manager, Head of Project Success.
       </div>
     </div>
 
     <div class="timeline">
 
       <div class="tl-item current reveal">
-        <div class="when"><span class="now">May 2026 to present</span></div>
-        <h4>Project Manager <span class="role-chip" style="font-size:11px;padding:2px 8px;margin-left:8px;display:inline-block;">part-time</span></h4>
-        <div class="where"><span class="role">Blackmont Consulting</span> · BNCC consulting engagement</div>
+        <div class="when"><span class="now">Jul 2026 to present</span></div>
+        <h4>Head of Project Success <span class="role-chip" style="font-size:11px;padding:2px 8px;margin-left:8px;display:inline-block;">part-time</span></h4>
+        <div class="where"><span class="role">Blackmont Consulting</span> · Global Consulting Division</div>
         <p>
-          Lead a team of seven Business Analysts and oversee end-to-end project
-          delivery for client engagements. Coordinate stakeholders across the
-          CEO, senior team, external clients and distributed cross-functional
-          members; act as primary point of contact for issue escalation.
+          Founding member of the newly established Global Consulting Division,
+          reporting directly to the Founder and CEO. The central
+          quality-assurance function for project delivery, with authority to
+          monitor, coach and escalate across all new Project Managers
+          organisation-wide.
         </p>
         <ul>
-          <li>Onboarding, NDA execution and compliance tracking across distributed teams</li>
-          <li>Delegation of research/analytical tasks with alignment to project objectives</li>
-          <li>Agile, Scrum and Microsoft Project for operational continuity</li>
+          <li>Own onboarding oversight of every new PM through five mandatory pre-launch checkpoints</li>
+          <li>Weekly one-to-one coaching, confidential escalation to the CEO, monthly organisational reporting</li>
+          <li>Designed two firm-wide standard templates approved by the CEO</li>
+          <li>Working with a cohort of six active PMs across multiple branches, scaling to ten August launches</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="when">May 2026 to Jun 2026</div>
+        <h4>Project Manager <span class="role-chip" style="font-size:11px;padding:2px 8px;margin-left:8px;display:inline-block;">part-time</span></h4>
+        <div class="where"><span class="role">Blackmont Consulting</span> · BNCC strategic advisory engagement</div>
+        <p>
+          Led an 8-week strategic advisory engagement for an Indonesian student
+          technology organisation, managing seven consultants across the UK,
+          US, Lisbon, Lebanon and India, spanning four time zones. Owned the
+          client relationship and the full lifecycle from initiation to exit.
+        </p>
+        <ul>
+          <li>Delivered a 30-slide client-ready strategic framework one day ahead of deadline</li>
+          <li>Managed two mid-engagement consultant replacements with zero timeline disruption</li>
+          <li>Received CEO commendation and promotion to Head of Project Success at close</li>
         </ul>
       </div>
 
@@ -977,18 +1121,17 @@
         <h4>Executive Assistant + Internal Engineer</h4>
         <div class="where"><span class="role">Waymade PLC</span> · Basildon, UK</div>
         <p>
-          Started as a traditional EA to the Executive Directors (calendar,
-          international travel, Microsoft 365, SharePoint, Dynamics) with
-          strong emphasis on confidentiality. Once my manager learned about
-          my technical background, the role expanded into genuine engineering
-          contributions.
+          Started as a traditional EA to the Executive Directors. Once my
+          manager recognised my technical background, the role expanded
+          substantially into engineering, data and delivery work across
+          business intelligence, AI workflow automation and PMO delivery.
         </p>
         <ul>
-          <li>Built internal React/TypeScript medicine-tracker site for the business</li>
-          <li>Supporting Monday.com &rarr; Power BI migration via GraphQL for the PMO</li>
-          <li>Python scripts auto-pulling UK prescription data into Power BI dashboards</li>
-          <li>Prototyping AI-assisted workflow automation (Claude, GitHub Copilot)</li>
-          <li>Learning regulatory submission processes specific to pharma</li>
+          <li>Built and own Power BI dashboards used by senior leadership, consolidating industry sales, MHRA and UK prescription data with Python pipelines</li>
+          <li>Designed and deployed an AI-assisted regulatory drafting workflow on the Claude API, roughly 95% time saving on target sections, handed over to the regulatory team</li>
+          <li>Migrated project tracking from Monday.com to Power BI via GraphQL; used daily by 10 to 12 department heads</li>
+          <li>Built an internal React/TypeScript medicine-data application and a Project Charter tool for the PMO</li>
+          <li>Core contributor to Project WayForward, the company's PMO delivery initiative</li>
         </ul>
       </div>
 
@@ -1165,10 +1308,6 @@
         <a href="https://github.com/poojakannanv" target="_blank" rel="noopener">
           <svg class="ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.36c-2.22.48-2.69-1.07-2.69-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.22.83 1.22.83.71 1.23 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.52.56.83 1.27.83 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
           github.com/poojakannanv
-        </a>
-        <a href="tel:+447771100416">
-          <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3a1 1 0 0 1 1-1h2l1 3-2 1a8 8 0 0 0 4 4l1-2 3 1v2a1 1 0 0 1-1 1A11 11 0 0 1 3 3Z"/></svg>
-          +44 7771 100416
         </a>
       </div>
     </div>
@@ -1474,6 +1613,160 @@
     });
   }, { rootMargin: '-30% 0px -60% 0px' });
   sections.forEach(s => s && so.observe(s));
+</script>
+<script>
+  /* ============ MOTION LAYER: typewriter, particles, tilt, magnetic ============ */
+  (function () {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    /* ---- 1. Typewriter role rotator (hero) ---- */
+    const roleEl = document.getElementById('type-roles');
+    if (roleEl && !reduced) {
+      const ROLES = ['MERN \u00b7 AWS', 'React \u00b7 Node', 'TypeScript', 'Serverless', 'Full-Stack'];
+      let ri = 0, ci = ROLES[0].length, deleting = true, t;
+      const tick = () => {
+        if (deleting) {
+          ci--;
+          roleEl.textContent = ROLES[ri].slice(0, ci);
+          if (ci === 0) { deleting = false; ri = (ri + 1) % ROLES.length; t = 300; }
+          else t = 38;
+        } else {
+          ci++;
+          roleEl.textContent = ROLES[ri].slice(0, ci);
+          if (ci === ROLES[ri].length) { deleting = true; t = 2600; }
+          else t = 68;
+        }
+        setTimeout(tick, t);
+      };
+      setTimeout(tick, 2200); // let the hero reveal settle first
+    }
+
+    /* ---- 2. Particle constellation behind the hero ---- */
+    const canvas = document.getElementById('fx-canvas');
+    if (canvas && !reduced) {
+      const ctx = canvas.getContext('2d');
+      const hero = canvas.parentElement;
+      let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let pts = [], raf = null, visible = true;
+      const mouse = { x: -9999, y: -9999 };
+      let accent = '124, 240, 199';
+
+      const readAccent = () => {
+        const v = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+        if (/^#([0-9a-f]{6})$/i.test(v)) {
+          accent = [1, 3, 5].map(i => parseInt(v.slice(i, i + 2), 16)).join(', ');
+        }
+      };
+      readAccent();
+      // pick up theme-switcher changes cheaply
+      new MutationObserver(readAccent).observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+
+      const resize = () => {
+        W = hero.clientWidth; H = hero.clientHeight;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.min(90, Math.round(W * H / 22000));
+        pts = Array.from({ length: count }, () => ({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28,
+          r: Math.random() * 1.6 + .6
+        }));
+      };
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      hero.addEventListener('pointermove', e => {
+        const b = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - b.left; mouse.y = e.clientY - b.top;
+      }, { passive: true });
+      hero.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; }, { passive: true });
+
+      const LINK = 120;
+      const draw = () => {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of pts) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > W) p.vx *= -1;
+          if (p.y < 0 || p.y > H) p.vy *= -1;
+          // gentle pull toward the cursor
+          const dxm = mouse.x - p.x, dym = mouse.y - p.y, dm = Math.hypot(dxm, dym);
+          if (dm < 160 && dm > 0.001) { p.x += dxm / dm * .25; p.y += dym / dm * .25; }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + accent + ', .5)';
+          ctx.fill();
+        }
+        for (let i = 0; i < pts.length; i++) {
+          for (let j = i + 1; j < pts.length; j++) {
+            const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < LINK * LINK) {
+              const a = (1 - Math.sqrt(d2) / LINK) * .22;
+              ctx.strokeStyle = 'rgba(' + accent + ', ' + a.toFixed(3) + ')';
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x, pts[i].y);
+              ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        if (visible) raf = requestAnimationFrame(draw);
+      };
+      // only animate while the hero is on screen
+      new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+        if (visible && raf === null) raf = requestAnimationFrame(draw);
+        if (!visible && raf !== null) { cancelAnimationFrame(raf); raf = null; }
+      }).observe(hero);
+      raf = requestAnimationFrame(draw);
+    }
+
+    /* ---- 3. Cursor tilt + spotlight on cards ---- */
+    if (finePointer && !reduced) {
+      const MAXT = 3.5; // degrees
+      document.querySelectorAll('.skill-group, .panel').forEach(card => {
+        card.classList.add('tilt');
+        card.addEventListener('pointermove', e => {
+          const b = card.getBoundingClientRect();
+          const px = (e.clientX - b.left) / b.width, py = (e.clientY - b.top) / b.height;
+          card.classList.add('is-tilting');
+          card.style.setProperty('--ry', ((px - .5) * 2 * MAXT).toFixed(2) + 'deg');
+          card.style.setProperty('--rx', ((.5 - py) * 2 * MAXT).toFixed(2) + 'deg');
+          card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+          card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+        });
+        card.addEventListener('pointerleave', () => {
+          card.classList.remove('is-tilting');
+          card.style.removeProperty('--rx');
+          card.style.removeProperty('--ry');
+        });
+      });
+      // spotlight only (no tilt) for the big project rows
+      document.querySelectorAll('.project').forEach(row => {
+        row.addEventListener('pointermove', e => {
+          const b = row.getBoundingClientRect();
+          row.style.setProperty('--mx', ((e.clientX - b.left) / b.width * 100).toFixed(1) + '%');
+          row.style.setProperty('--my', ((e.clientY - b.top) / b.height * 100).toFixed(1) + '%');
+        });
+      });
+    }
+
+    /* ---- 4. Magnetic buttons ---- */
+    if (finePointer && !reduced) {
+      const PULL = 5; // px
+      document.querySelectorAll('.btn, .nav-cta, .contact-links a').forEach(el => {
+        el.addEventListener('pointermove', e => {
+          const b = el.getBoundingClientRect();
+          const dx = (e.clientX - (b.left + b.width / 2)) / (b.width / 2);
+          const dy = (e.clientY - (b.top + b.height / 2)) / (b.height / 2);
+          el.style.transform = 'translate(' + (dx * PULL).toFixed(1) + 'px, ' + (dy * PULL).toFixed(1) + 'px)';
+        });
+        el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+      });
+    }
+  })();
 </script>
 </body>
 </html>
