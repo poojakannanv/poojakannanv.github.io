@@ -220,6 +220,17 @@
   .eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: .12em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 10px; }
   .eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
 
+  .avatar {
+    width: 296px; height: 296px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 28px;
+    border: 2px solid var(--line-2);
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--accent) 12%, transparent);
+  }
+  @media (max-width: 640px) { .avatar { width: 180px; height: 180px; margin-bottom: 20px; } }
+
   .display {
     font-family: var(--serif);
     font-weight: 300;
@@ -679,6 +690,7 @@
   <canvas id="fx-canvas" aria-hidden="true"></canvas>
   <div class="container">
     <div class="reveal">
+      <img class="avatar" src="assets/profile.jpg" alt="Pooja Kannan" width="296" height="296" />
       <span class="eyebrow">Full-Stack Developer · Basildon, UK</span>
     </div>
     <h1 class="display reveal" data-d="1">
