@@ -453,6 +453,12 @@
     margin-bottom: 12px;
     letter-spacing: .04em;
   }
+  .project .shot {
+    display: block; width: 100%; height: auto; margin-top: 20px;
+    aspect-ratio: 16 / 9; object-fit: cover; object-position: top center;
+    border: 1px solid var(--line-2); border-radius: var(--radius);
+    position: relative; z-index: 1;
+  }
   @media (max-width: 880px) { .project { grid-template-columns: 1fr; gap: 20px; } }
 
   /* ---------- Timeline ---------- */
@@ -966,6 +972,7 @@
           <span class="role-chip">Solo build · live on Vercel · open source</span>
           <h3>MedDossier</h3>
           <div class="org">Regulatory submission tracker · MERN · JWT · RBAC</div>
+          <img class="shot" src="assets/project-meddossier.jpg" alt="MedDossier dashboard screenshot" loading="lazy" onerror="this.remove()" />
         </div>
         <div class="body">
           <p>
@@ -1002,6 +1009,7 @@
           <span class="role-chip">Solo build · live on Vercel · Claude API</span>
           <h3>MoneyMate AI</h3>
           <div class="org">AI personal finance co-pilot · Next.js · Claude API · Postgres</div>
+          <img class="shot" src="assets/project-moneymate.jpg" alt="MoneyMate AI screenshot" loading="lazy" onerror="this.remove()" />
         </div>
         <div class="body">
           <p>
@@ -1038,6 +1046,7 @@
           <span class="role-chip">Solo build · live on Vercel · open source</span>
           <h3>GitHub Profile Analyzer</h3>
           <div class="org">UK-focused hiring report generator · Next.js 14 · TypeScript</div>
+          <img class="shot" src="assets/project-analyzer.jpg" alt="GitHub Profile Analyzer home page screenshot" loading="lazy" onerror="this.remove()" />
         </div>
         <div class="body">
           <p>
