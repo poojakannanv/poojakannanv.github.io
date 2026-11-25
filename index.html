@@ -470,6 +470,28 @@
     box-shadow: 0 12px 32px -16px rgba(0,0,0,.5);
     position: relative; z-index: 1;
   }
+  /* screenshot: slides in after the card text, lifts on card hover */
+  .project.reveal .shot {
+    opacity: 0; transform: translateX(36px);
+    transition: opacity .7s .25s var(--ease), transform .7s .25s var(--ease), box-shadow .3s var(--ease);
+  }
+  .project.reveal.is-in .shot { opacity: 1; transform: none; }
+  .project.reveal.is-in:hover .shot {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 22px 44px -18px rgba(0,0,0,.6), 0 0 0 1px color-mix(in oklab, var(--accent) 45%, transparent);
+    transition-delay: 0s; transition-duration: .35s;
+  }
+  .project .links a .ic { transition: transform .2s var(--ease); }
+  .project .links a:hover .ic { transform: translate(2px, -2px); }
+
+  /* scroll progress bar */
+  #scroll-progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 200;
+    background: var(--accent); transform-origin: left; transform: scaleX(0);
+    pointer-events: none;
+  }
+  .nav-links a.is-active .num { color: var(--accent); }
+
   @media (max-width: 880px) {
     .project { grid-template-columns: 1fr; gap: 20px; }
     .project.has-shot { grid-template-columns: 1fr; grid-template-areas: "head" "shot" "body"; grid-template-rows: auto; }
@@ -480,6 +502,13 @@
   .timeline::before {
     content: ''; position: absolute; left: 11px; top: 6px; bottom: 6px;
     width: 1px; background: var(--line);
+  }
+  /* accent line that draws down the timeline as you scroll through it */
+  .timeline::after {
+    content: ''; position: absolute; left: 11px; top: 6px; bottom: 6px;
+    width: 1px; background: var(--accent);
+    transform-origin: top; transform: scaleY(var(--tl, 0));
+    transition: transform .15s linear;
   }
   .tl-item { position: relative; padding-bottom: 48px; }
   .tl-item:last-child { padding-bottom: 0; }
@@ -678,6 +707,8 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal, .reveal .chip { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
     .tl-item.reveal::before { transform: scale(1) !important; transition: none !important; }
+    .project .shot, .project .links a .ic { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .timeline::after, #scroll-progress { display: none !important; }
     .hero::before { animation: none !important; }
     #fx-canvas { display: none !important; }
     .type-caret { animation: none !important; }
@@ -704,6 +735,7 @@
 <body>
 
 <!-- ============ NAV ============ -->
+<div id="scroll-progress" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="#top" class="brand">
@@ -1807,9 +1839,21 @@
 
   // Nav scroll state
   const nav = document.getElementById('nav');
+  const progress = document.getElementById('scroll-progress');
+  const timeline = document.querySelector('.timeline');
   const onScroll = () => {
     nav.classList.toggle('is-scrolled', window.scrollY > 8);
+    // scroll progress bar
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (progress) progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+    // timeline line: filled up to the middle of the viewport
+    if (timeline) {
+      const r = timeline.getBoundingClientRect();
+      const p = (window.innerHeight * 0.6 - r.top) / r.height;
+      timeline.style.setProperty('--tl', Math.max(0, Math.min(1, p)).toFixed(3));
+    }
   };
+  window.addEventListener('resize', onScroll, { passive: true });
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
