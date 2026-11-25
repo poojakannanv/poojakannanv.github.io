@@ -453,13 +453,27 @@
     margin-bottom: 12px;
     letter-spacing: .04em;
   }
+  /* Cards with a screenshot: all text on the left, image on the right */
+  .project.has-shot {
+    grid-template-columns: 1fr 1.15fr;
+    grid-template-areas: "head shot" "body shot";
+    grid-template-rows: auto 1fr;
+    row-gap: 22px;
+  }
+  .project.has-shot > div:first-child { grid-area: head; }
+  .project.has-shot > .body { grid-area: body; }
   .project .shot {
-    display: block; width: 100%; height: auto; margin-top: 20px;
+    grid-area: shot; align-self: center;
+    display: block; width: 100%; height: auto;
     aspect-ratio: 16 / 9; object-fit: cover; object-position: top center;
     border: 1px solid var(--line-2); border-radius: var(--radius);
+    box-shadow: 0 12px 32px -16px rgba(0,0,0,.5);
     position: relative; z-index: 1;
   }
-  @media (max-width: 880px) { .project { grid-template-columns: 1fr; gap: 20px; } }
+  @media (max-width: 880px) {
+    .project { grid-template-columns: 1fr; gap: 20px; }
+    .project.has-shot { grid-template-columns: 1fr; grid-template-areas: "head" "shot" "body"; grid-template-rows: auto; }
+  }
 
   /* ---------- Timeline ---------- */
   .timeline { position: relative; padding-left: 40px; }
@@ -966,87 +980,12 @@
 
     <div class="projects">
 
-      <article class="project reveal">
-        <div>
-          <div class="meta"><b>2026</b> · Personal project</div>
-          <span class="role-chip">Solo build · live on Vercel · open source</span>
-          <h3>MedDossier</h3>
-          <div class="org">Regulatory submission tracker · MERN · JWT · RBAC</div>
-          <img class="shot" src="assets/project-meddossier.jpg" alt="MedDossier dashboard screenshot" loading="lazy" onerror="this.remove()" />
-        </div>
-        <div class="body">
-          <p>
-            A regulatory submission management platform for pharma teams: drug
-            product master records, dossiers with CTD Module 3.2.P checklists,
-            document versioning, role-based access and a full audit trail.
-          </p>
-          <p>
-            Built entirely from the publicly published ICH CTD format as an
-            educational project. The open-source landscape has no MERN-based
-            RIM tracker, so this fills that gap.
-          </p>
-          <div class="stack">
-            <span class="chip">React</span><span class="chip">Node.js</span>
-            <span class="chip">Express</span><span class="chip">MongoDB</span>
-            <span class="chip">JWT</span><span class="chip">Docker</span>
-          </div>
-          <div class="links">
-            <a href="https://med-dossier.vercel.app/" target="_blank" rel="noopener">
-              <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg>
-              Live demo
-            </a>
-            <a href="https://github.com/poojakannanv/med-dossier" target="_blank" rel="noopener">
-              <svg class="ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.36c-2.22.48-2.69-1.07-2.69-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.22.83 1.22.83.71 1.23 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.52.56.83 1.27.83 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
-              Source on GitHub
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <article class="project reveal" data-d="1">
-        <div>
-          <div class="meta"><b>2026</b> · Personal project</div>
-          <span class="role-chip">Solo build · live on Vercel · Claude API</span>
-          <h3>MoneyMate AI</h3>
-          <div class="org">AI personal finance co-pilot · Next.js · Claude API · Postgres</div>
-          <img class="shot" src="assets/project-moneymate.jpg" alt="MoneyMate AI screenshot" loading="lazy" onerror="this.remove()" />
-        </div>
-        <div class="body">
-          <p>
-            An AI personal finance co-pilot for UK households. Upload any UK
-            bank CSV statement, get every transaction categorised by Claude
-            with confidence scores, ask your money anything in plain English,
-            and receive a weekly insights digest with one concrete action.
-          </p>
-          <p>
-            Built for the UK cost-of-living squeeze, with categories generic
-            apps lack, like Council Tax and Tube and Rail.
-          </p>
-          <div class="stack">
-            <span class="chip">Next.js</span><span class="chip">TypeScript</span>
-            <span class="chip">Claude API</span><span class="chip">Vercel AI SDK</span>
-            <span class="chip">Drizzle · Postgres</span><span class="chip">NextAuth</span>
-          </div>
-          <div class="links">
-            <a href="https://money-mate-ai-indol.vercel.app/" target="_blank" rel="noopener">
-              <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg>
-              Live demo
-            </a>
-            <a href="https://github.com/poojakannanv/money-mate-ai" target="_blank" rel="noopener">
-              <svg class="ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.36c-2.22.48-2.69-1.07-2.69-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.22.83 1.22.83.71 1.23 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.52.56.83 1.27.83 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
-              Source on GitHub
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <article class="project reveal" data-d="2">
+      <article class="project has-shot reveal" data-d="2">
         <div>
           <div class="meta"><b>2026</b> · Personal project</div>
           <span class="role-chip">Solo build · live on Vercel · open source</span>
           <h3>GitHub Profile Analyzer</h3>
           <div class="org">UK-focused hiring report generator · Next.js 14 · TypeScript</div>
-          <img class="shot" src="assets/project-analyzer.jpg" alt="GitHub Profile Analyzer home page screenshot" loading="lazy" onerror="this.remove()" />
         </div>
         <div class="body">
           <p>
@@ -1075,6 +1014,81 @@
             </a>
           </div>
         </div>
+        <img class="shot" src="assets/project-analyzer.jpg" alt="GitHub Profile Analyzer home page screenshot" loading="lazy" onerror="this.remove()" />
+      </article>
+
+      <article class="project has-shot reveal">
+        <div>
+          <div class="meta"><b>2026</b> · Personal project</div>
+          <span class="role-chip">Solo build · live on Vercel · open source</span>
+          <h3>MedDossier</h3>
+          <div class="org">Regulatory submission tracker · MERN · JWT · RBAC</div>
+        </div>
+        <div class="body">
+          <p>
+            A regulatory submission management platform for pharma teams: drug
+            product master records, dossiers with CTD Module 3.2.P checklists,
+            document versioning, role-based access and a full audit trail.
+          </p>
+          <p>
+            Built entirely from the publicly published ICH CTD format as an
+            educational project. The open-source landscape has no MERN-based
+            RIM tracker, so this fills that gap.
+          </p>
+          <div class="stack">
+            <span class="chip">React</span><span class="chip">Node.js</span>
+            <span class="chip">Express</span><span class="chip">MongoDB</span>
+            <span class="chip">JWT</span><span class="chip">Docker</span>
+          </div>
+          <div class="links">
+            <a href="https://med-dossier.vercel.app/" target="_blank" rel="noopener">
+              <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg>
+              Live demo
+            </a>
+            <a href="https://github.com/poojakannanv/med-dossier" target="_blank" rel="noopener">
+              <svg class="ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.36c-2.22.48-2.69-1.07-2.69-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.22.83 1.22.83.71 1.23 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.52.56.83 1.27.83 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+              Source on GitHub
+            </a>
+          </div>
+        </div>
+        <img class="shot" src="assets/project-meddossier.jpg" alt="MedDossier dashboard screenshot" loading="lazy" onerror="this.remove()" />
+      </article>
+
+      <article class="project has-shot reveal" data-d="1">
+        <div>
+          <div class="meta"><b>2026</b> · Personal project</div>
+          <span class="role-chip">Solo build · live on Vercel · Claude API</span>
+          <h3>MoneyMate AI</h3>
+          <div class="org">AI personal finance co-pilot · Next.js · Claude API · Postgres</div>
+        </div>
+        <div class="body">
+          <p>
+            An AI personal finance co-pilot for UK households. Upload any UK
+            bank CSV statement, get every transaction categorised by Claude
+            with confidence scores, ask your money anything in plain English,
+            and receive a weekly insights digest with one concrete action.
+          </p>
+          <p>
+            Built for the UK cost-of-living squeeze, with categories generic
+            apps lack, like Council Tax and Tube and Rail.
+          </p>
+          <div class="stack">
+            <span class="chip">Next.js</span><span class="chip">TypeScript</span>
+            <span class="chip">Claude API</span><span class="chip">Vercel AI SDK</span>
+            <span class="chip">Drizzle · Postgres</span><span class="chip">NextAuth</span>
+          </div>
+          <div class="links">
+            <a href="https://money-mate-ai-indol.vercel.app/" target="_blank" rel="noopener">
+              <svg class="ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3H3v10h10v-3M9 3h4v4M13 3 7 9"/></svg>
+              Live demo
+            </a>
+            <a href="https://github.com/poojakannanv/money-mate-ai" target="_blank" rel="noopener">
+              <svg class="ic" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.36c-2.22.48-2.69-1.07-2.69-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.22.83 1.22.83.71 1.23 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.83-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.52.56.83 1.27.83 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.74.54 1.49v2.21c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+              Source on GitHub
+            </a>
+          </div>
+        </div>
+        <img class="shot" src="assets/project-moneymate.jpg" alt="MoneyMate AI screenshot" loading="lazy" onerror="this.remove()" />
       </article>
 
       <article class="project reveal" data-d="3">
@@ -1167,13 +1181,12 @@
         </div>
       </article>
 
-      <article class="project reveal" data-d="2">
+      <article class="project has-shot reveal" data-d="2">
         <div>
           <div class="meta"><b>2024</b> · MSc Dissertation, University of Liverpool</div>
           <span class="role-chip">Solo · serverless architecture</span>
           <h3>HealthSync Scheduler</h3>
           <div class="org">Cloud-based health management · React · AWS Lambda · DynamoDB</div>
-          <img class="shot" src="assets/project-healthsync.jpg" alt="HealthSync Scheduler home page screenshot" loading="lazy" onerror="this.remove()" />
         </div>
         <div class="body">
           <p>
@@ -1200,15 +1213,15 @@
             </a>
           </div>
         </div>
+        <img class="shot" src="assets/project-healthsync.jpg" alt="HealthSync Scheduler home page screenshot" loading="lazy" onerror="this.remove()" />
       </article>
 
-      <article class="project reveal" data-d="3">
+      <article class="project has-shot reveal" data-d="3">
         <div>
           <div class="meta"><b>2024</b> · MSc Project, University of Liverpool</div>
           <span class="role-chip">Research-grade · React + Python</span>
           <h3>Large Text Analysis Platform</h3>
           <div class="org">Systematic literature review tool · React · Python</div>
-          <img class="shot" src="assets/project-largetext.jpg" alt="Large Text Analysis Platform search results screenshot" loading="lazy" onerror="this.remove()" />
         </div>
         <div class="body">
           <p>
@@ -1232,6 +1245,7 @@
             </a>
           </div>
         </div>
+        <img class="shot" src="assets/project-largetext.jpg" alt="Large Text Analysis Platform search results screenshot" loading="lazy" onerror="this.remove()" />
       </article>
 
       <article class="project reveal">
